@@ -31,11 +31,6 @@ scripts:
     url: https://raw.githubusercontent.com/dahaha-365/YaNet/main/Mihomo/global_script.js
     description: "YaNet - 功能全面的覆写脚本"
 
-  - name: override-rules
-    type: js
-    url: https://raw.githubusercontent.com/powerfullz/override-rules/refs/heads/main/convert.min.js
-    description: "powerfullz override-rules - 参数化覆写"
-
   # YAML patch 示例（取消注释使用）：
   # - name: my-patch
   #   type: yaml
