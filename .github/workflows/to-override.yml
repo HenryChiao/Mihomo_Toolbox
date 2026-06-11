@@ -1,0 +1,48 @@
+name: "② 完整 YAML → 覆写 JS"
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "只处理指定文件名（留空处理全部，例如: mihomo-urltest-v2）"
+        required: false
+        default: ""
+
+jobs:
+  to-override:
+    name: Generate override JS from YAML
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run to-override.js
+        run: |
+          if [ -n "${{ github.event.inputs.only }}" ]; then
+            node scripts/to-override.js --only "${{ github.event.inputs.only }}"
+          else
+            node scripts/to-override.js
+          fi
+
+      - name: Commit override JS files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add overrides/
+          if git diff --cached --quiet; then
+            echo "overrides/ 无变化，跳过提交"
+          else
+            git commit -m "chore(overrides): update override JS [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            git push
+          fi

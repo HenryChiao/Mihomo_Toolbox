@@ -1,0 +1,48 @@
+name: "① 覆写脚本 → 完整 Mihomo YAML"
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "只处理指定脚本名（留空处理全部，例如: yanet）"
+        required: false
+        default: ""
+
+jobs:
+  to-yaml:
+    name: Convert override scripts to YAML
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run to-yaml.js
+        run: |
+          if [ -n "${{ github.event.inputs.only }}" ]; then
+            node scripts/to-yaml.js --only "${{ github.event.inputs.only }}"
+          else
+            node scripts/to-yaml.js
+          fi
+
+      - name: Commit output YAMLs
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/
+          if git diff --cached --quiet; then
+            echo "output/ 无变化，跳过提交"
+          else
+            git commit -m "chore(output): update YAMLs [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            git push
+          fi
