@@ -1,0 +1,8 @@
+{
+  "name": "mihomo-toolbox",
+  "version": "2.0.0",
+  "description": "工作流①: 覆写脚本 → 完整YAML | 工作流②: 完整YAML → 覆写JS",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
