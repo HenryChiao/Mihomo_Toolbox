@@ -1,0 +1,149 @@
+# 由 to-yaml.js 自动生成 — 2026-06-11T15:12:23.982Z
+# 来源脚本: https://raw.githubusercontent.com/Sakyvo/sing-mix/refs/heads/main/sing-mix_lite
+# 说明: sing-mix Lite - 精简版
+# ⚠  proxy-providers 中的 url 请替换为真实订阅地址后使用
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: warning
+ipv6: false
+external-controller: 127.0.0.1:9090
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.0/15
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - geosite:private
+    - geosite:google-cn
+    - geosite:synology
+    - geosite:cn
+    - +.example.com
+    - +.example.org
+  nameserver:
+    - https://1.1.1.1/dns-query#全部
+    - https://8.8.8.8/dns-query#全部
+  fallback:
+    - https://1.0.0.1/dns-query
+    - https://8.8.4.4/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+  cache-algorithm: arc
+  fake-ip-filter-mode: blacklist
+  respect-rules: true
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver-policy:
+    pdir.cc.cd:
+      - https://1.1.1.1/dns-query#全部
+      - https://8.8.8.8/dns-query#全部
+    vale.cc.cd:
+      - https://1.1.1.1/dns-query#全部
+      - https://8.8.8.8/dns-query#全部
+    geosite:cn:
+      - 223.5.5.5#DIRECT
+      - 119.29.29.29#DIRECT
+    geosite:private: system
+    geosite:google-cn:
+      - 223.5.5.5#DIRECT
+      - 119.29.29.29#DIRECT
+    geosite:synology:
+      - 223.5.5.5#DIRECT
+      - 119.29.29.29#DIRECT
+    geosite:openai:
+      - https://1.1.1.1/dns-query#AI
+      - https://8.8.8.8/dns-query#AI
+    geosite:anthropic:
+      - https://1.1.1.1/dns-query#AI
+      - https://8.8.8.8/dns-query#AI
+    geosite:google-gemini:
+      - https://1.1.1.1/dns-query#AI
+      - https://8.8.8.8/dns-query#AI
+    geosite:xai:
+      - https://1.1.1.1/dns-query#AI
+      - https://8.8.8.8/dns-query#AI
+  proxy-server-nameserver:
+    - 223.5.5.5#DIRECT
+    - 119.29.29.29#DIRECT
+    - system
+  direct-nameserver:
+    - 223.5.5.5#DIRECT
+    - 119.29.29.29#DIRECT
+    - system
+  direct-nameserver-follow-policy: true
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: true
+proxy-providers:
+  Airport-01:
+    type: http
+    url: YOUR_SUBSCRIPTION_URL_HERE
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    override:
+      additional-prefix: '[A1]'
+proxies: []
+proxy-groups: []
+rules:
+  - GEOSITE,category-ads-all,REJECT
+  - DOMAIN,test.com,全部
+  - DOMAIN,test.org,全部
+  - GEOSITE,private,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
+  - GEOSITE,google-cn,DIRECT
+  - GEOSITE,synology,DIRECT
+  - DOMAIN-SUFFIX,sharepoint.com,DIRECT
+  - DOMAIN-SUFFIX,example.com,DIRECT
+  - DOMAIN-SUFFIX,example.org,DIRECT
+  - GEOSITE,openai,AI
+  - GEOSITE,anthropic,AI
+  - GEOSITE,google-gemini,AI
+  - GEOSITE,xai,AI
+  - GEOSITE,gfw,全部
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
+  - MATCH,全部
+geodata-mode: true
+geo-auto-update: true
+geo-update-interval: 24
+geox-url:
+  geoip: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+  geosite: https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  sniff:
+    HTTP:
+      ports:
+        - 80
+        - 8080-8880
+      override-destination: true
+    TLS:
+      ports:
+        - 443
+        - 8443
+    QUIC:
+      ports:
+        - 443
+        - 8443
+profile:
+  store-selected: true
+  store-fake-ip: false

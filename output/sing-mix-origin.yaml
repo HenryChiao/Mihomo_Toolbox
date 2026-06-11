@@ -1,0 +1,296 @@
+# 由 to-yaml.js 自动生成 — 2026-06-11T15:12:23.966Z
+# 来源脚本: https://raw.githubusercontent.com/Sakyvo/sing-mix/refs/heads/main/sing-mix_origin
+# 说明: sing-mix Origin - 带国家/地区分组
+# ⚠  proxy-providers 中的 url 请替换为真实订阅地址后使用
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: warning
+ipv6: false
+external-controller: 127.0.0.1:9090
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.0/15
+  fake-ip-filter:
+    - +.cn
+    - rule-set:private
+    - rule-set:cn
+    - rule-set:google-cn
+    - rule-set:synology
+    - rule-set:googlefcm
+    - rule-set:epicgames
+    - rule-set:nvidia@cn
+    - rule-set:microsoft@cn
+    - rule-set:cloudflare@cn
+    - rule-set:steam@cn
+    - rule-set:category-game-platforms-download@cn
+    - rule-set:category-ntp
+    - rule-set:connectivity-check
+    - rule-set:apple
+    - rule-set:spotify
+    - rule-set:microsoft
+    - +.example.com
+    - +.example.org
+    - '*.lan'
+    - '*.local'
+  nameserver:
+    - https://1.1.1.1/dns-query#main
+  fallback:
+    - https://1.0.0.1/dns-query
+    - https://8.8.4.4/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+  listen: 0.0.0.0:1053
+  cache-algorithm: arc
+  prefer-h3: false
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: true
+  fake-ip-filter-mode: blacklist
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query#DIRECT
+    - https://dns.alidns.com/dns-query#DIRECT
+  direct-nameserver:
+    - system
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: true
+proxy-providers:
+  Airport-01:
+    type: http
+    url: YOUR_SUBSCRIPTION_URL_HERE
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    override:
+      additional-prefix: '[A1]'
+proxies: []
+proxy-groups: []
+rules:
+  - RULE-SET,category-ads-all,REJECT
+  - DOMAIN-SUFFIX,example.com,DIRECT
+  - DOMAIN-SUFFIX,example.org,DIRECT
+  - DOMAIN,test.com,main
+  - DOMAIN,test.org,main
+  - RULE-SET,private,DIRECT
+  - RULE-SET,private-ip,DIRECT,no-resolve
+  - RULE-SET,google-cn,DIRECT
+  - RULE-SET,synology,DIRECT
+  - DOMAIN-SUFFIX,sharepoint.com,DIRECT
+  - RULE-SET,microsoft@cn,DIRECT
+  - RULE-SET,category-game-platforms-download@cn,DIRECT
+  - RULE-SET,category-ai-!cn,ai
+  - RULE-SET,telegram,tg
+  - RULE-SET,gfw,main
+  - RULE-SET,cn,DIRECT
+  - RULE-SET,cn-ip,DIRECT,no-resolve
+  - MATCH,main
+rule-providers:
+  category-ads-all:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/category-ads-all.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs
+    interval: 86400
+  private:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/private.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs
+    interval: 86400
+  google-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/google-cn.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google-cn.mrs
+    interval: 86400
+  synology:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/synology.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/synology.mrs
+    interval: 86400
+  microsoft@cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/microsoft@cn.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft@cn.mrs
+    interval: 86400
+  category-game-platforms-download@cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/category-game-platforms-download@cn.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-game-platforms-download@cn.mrs
+    interval: 86400
+  category-ai-!cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/category-ai-!cn.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ai-!cn.mrs
+    interval: 86400
+  telegram:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/telegram.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs
+    interval: 86400
+  gfw:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/gfw.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/gfw.mrs
+    interval: 86400
+  cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/cn.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs
+    interval: 86400
+  googlefcm:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/googlefcm.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/googlefcm.mrs
+    interval: 86400
+  epicgames:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/epicgames.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/epicgames.mrs
+    interval: 86400
+  nvidia@cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/nvidia@cn.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nvidia@cn.mrs
+    interval: 86400
+  cloudflare@cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/cloudflare@cn.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cloudflare@cn.mrs
+    interval: 86400
+  steam@cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/steam@cn.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam@cn.mrs
+    interval: 86400
+  category-ntp:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/category-ntp.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ntp.mrs
+    interval: 86400
+  connectivity-check:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/connectivity-check.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/connectivity-check.mrs
+    interval: 86400
+  apple:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/apple.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs
+    interval: 86400
+  spotify:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/spotify.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/spotify.mrs
+    interval: 86400
+  microsoft:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/microsoft.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs
+    interval: 86400
+  private-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    path: ./rules/private-ip.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs
+    interval: 86400
+  cn-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    path: ./rules/cn-ip.mrs
+    url: https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs
+    interval: 86400
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  sniff:
+    HTTP:
+      ports:
+        - 80
+        - 8080-8880
+      override-destination: true
+    TLS:
+      ports:
+        - 443
+        - 8443
+    QUIC:
+      ports:
+        - 443
+        - 8443
+hosts:
+  dns.alidns.com:
+    - 223.5.5.5
+    - 223.6.6.6
+  doh.pub:
+    - 1.12.12.12
+    - 120.53.53.53
+  services.googleapis.cn:
+    - services.googleapis.com
+  +.mcdn.bilivideo.com:
+    - 0.0.0.0
+  +.mcdn.bilivideo.cn:
+    - 0.0.0.0
+profile:
+  store-selected: true
+  store-fake-ip: false
