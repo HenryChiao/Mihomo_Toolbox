@@ -19,6 +19,7 @@ const https = require("https");
 const http  = require("http");
 const vm    = require("vm");
 const yaml  = require("js-yaml");
+const { renderMihomoYaml } = require("./render-yaml");
 
 // ─── CLI ──────────────────────────────────────────────────────
 const args     = process.argv.slice(2);
@@ -373,14 +374,13 @@ async function main() {
       }
       if (leaked > 0) console.warn(`   ⚠  仍有 ${leaked} 处虚拟节点引用未清理，请检查`);
 
-      const header =
-        `# 由 to-yaml.js 自动生成 — ${new Date().toISOString()}\n` +
-        `# 来源脚本: ${url}\n` +
-        `# 说明: ${description}\n` +
-        `# ⚠  proxy-providers 中的 url 请替换为真实订阅地址后使用\n\n`;
+      const rendered = renderMihomoYaml(result, {
+        name, url, description,
+        generatedAt: new Date().toISOString(),
+      });
 
       const outPath = path.join(outputDir, `${name}.yaml`);
-      fs.writeFileSync(outPath, header + yaml.dump(result, { lineWidth: 120, noRefs: true }));
+      fs.writeFileSync(outPath, rendered);
       console.log(`   ✅  → output/${name}.yaml`);
       ok++;
 
