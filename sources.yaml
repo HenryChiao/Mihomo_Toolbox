@@ -6,6 +6,16 @@
 # type: yaml → Mihomo Party YAML patch 格式（prepend-/append-）
 
 scripts:
+  - name: AIsouler_full
+    type: js
+    url: https://raw.githubusercontent.com/AIsouler/MyClash/refs/heads/main/Script/mihomoScript.js
+    description: "AIsouler_full_script"
+
+  - name: AIsouler_lite
+    type: js
+    url: https://raw.githubusercontent.com/AIsouler/MyClash/refs/heads/main/Script/Script.js
+    description: "AIsouler_lite_script"
+
   - name: sing-mix-origin
     type: js
     url: https://raw.githubusercontent.com/Sakyvo/sing-mix/refs/heads/main/sing-mix_origin
