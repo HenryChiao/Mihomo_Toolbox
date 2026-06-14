@@ -13,6 +13,7 @@
 │   └── <name>.js
 ├── scripts/
 │   ├── to-yaml.js        ← 工作流① 核心
+│   ├── render-yaml.js    ← 工作流① 辅助生成
 │   └── to-override.js    ← 工作流② 核心
 └── .github/workflows/
     ├── to-yaml.yml       ← 工作流①
