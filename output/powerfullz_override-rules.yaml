@@ -1,0 +1,223 @@
+# ==================== 文件信息 ====================
+# 名称: powerfullz_override-rules
+# 来源: https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js
+# 说明: powerfullz_override-rules
+# 生成: 2026-06-14T01:39:57.986Z
+# ⚠  proxy-providers 中的 url 请替换为真实订阅地址
+# ====================================================
+
+# ==================== 锚点配置 ====================
+FilterHK: &FilterHK '(?i)港|🇭🇰|\bHK\b|hongkong|hong.?kong'
+FilterTW: &FilterTW '(?i)台湾|台灣|🇹🇼|\bTW\b|taiwan'
+FilterSG: &FilterSG '(?i)新加坡|🇸🇬|\bSG\b|singapore'
+FilterJP: &FilterJP '(?i)日本|🇯🇵|\bJP\b|japan'
+FilterKR: &FilterKR '(?i)韩|🇰🇷|\bKR\b|korea'
+FilterUS: &FilterUS '(?i)(?!.*aus)(美|🇺🇸|\bUS\b|\bUSA\b|united.?states)'
+FilterCA: &FilterCA '(?i)加拿大|🇨🇦|\bCA\b|canada'
+FilterEU: &FilterEU '(?i)英|🇬🇧|\bUK\b|\bGB\b|united.?kingdom'
+FilterDE: &FilterDE '(?i)德|🇩🇪|\bDE\b|germany'
+FilterMY: &FilterMY '(?i)马来|🇲🇾|\bMY\b|malaysia'
+FilterTR: &FilterTR '(?i)土耳其|🇹🇷|\bTR\b|turkey'
+FilterAU: &FilterAU '(?i)澳|🇦🇺|\bAU\b|australia'
+SelectAL: &SelectAL {type: select, proxies: [选择代理, 香港节点, 台湾节点, 新加坡节点, 日本节点, 韩国节点, 美国节点, 加拿大节点, 英国节点, 德国节点, 马来西亚节点, 土耳其节点, 澳大利亚节点, 手动选择, DIRECT]}
+
+
+# ==================== 代理提供者 ====================
+proxy-providers:
+  Airport-01: {type: http, url: YOUR_SUBSCRIPTION_URL_HERE, interval: 86400, health-check: {enable: true, url: 'https://www.gstatic.com/generate_204', interval: 300}, override: {additional-prefix: '[A1]'}}
+
+
+# ==================== 核心配置 ====================
+
+# GEO 数据
+geodata-mode: true
+geox-url:
+  geoip: 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat'
+  geosite: 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat'
+  mmdb: 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb'
+  asn: 'https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb'
+
+
+# ==================== 流量嗅探 ====================
+sniffer:
+  sniff:
+    TLS:
+      ports:
+        - 443
+        - 8443
+    HTTP:
+      ports:
+        - 80
+        - 8080
+        - 8880
+    QUIC:
+      ports:
+        - 443
+        - 8443
+  override-destination: false
+  enable: true
+  force-dns-mapping: true
+  skip-domain:
+    - Mijia Cloud
+    - dlg.io.mi.com
+    - +.push.apple.com
+
+
+# ==================== TUN 模式 ====================
+tun:
+  enable: false
+  stack: gvisor
+  device: mihomo
+  route-exclude-address:
+    - 100.64.0.0/10
+    - 'fd7a:115c:a1e0::/48'
+    - 192.168.0.0/16
+    - 'fd00::/8'
+  dns-hijack:
+    - 'any:53'
+  mtu: 1500
+
+
+# ==================== DNS 配置 ====================
+dns:
+  enable: true
+  ipv6: false
+  prefer-h3: true
+  enhanced-mode: fake-ip
+  default-nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  nameserver:
+    - system
+    - 223.5.5.5
+    - 119.29.29.29
+    - 180.184.1.1
+  fallback:
+    - 'quic://dns0.eu'
+    - 'https://dns.cloudflare.com/dns-query'
+    - 'https://dns.sb/dns-query'
+    - 'tcp://208.67.222.222'
+    - 'tcp://8.26.56.2'
+  proxy-server-nameserver:
+    - 'https://dns.alidns.com/dns-query'
+    - 'tls://dot.pub'
+  fake-ip-filter:
+    - 'geosite:private'
+    - 'geosite:connectivity-check'
+    - Mijia Cloud
+    - dig.io.mi.com
+    - localhost.ptlogin2.qq.com
+    - '*.icloud.com'
+    - '*.stun.*.*'
+    - '*.stun.*.*.*'
+
+
+# ==================== 策略组 ====================
+proxy-groups:
+  - {name: 选择代理, type: select, proxies: [自动选择, 故障转移, 香港节点, 台湾节点, 新加坡节点, 日本节点, 韩国节点, 美国节点, 加拿大节点, 英国节点, 德国节点, 马来西亚节点, 土耳其节点, 澳大利亚节点, 手动选择, DIRECT], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png'}
+  - {name: 手动选择, type: select, include-all: true, icon: 'https://cdn.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png'}
+  - {name: 静态资源, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png'}
+  - {name: AI服务, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png'}
+  - {name: 加密货币, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cryptocurrency_1.png'}
+  - {name: 苹果服务, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple_2.png'}
+  - {name: 谷歌服务, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/Google.png'}
+  - {name: 微软服务, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/icons/Microsoft_Copilot.png'}
+  - {name: Xbox, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Xbox.png'}
+  - {name: Github, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png'}
+  - {name: 哔哩哔哩, type: select, proxies: [DIRECT, 台湾节点, 香港节点], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/bilibili.png'}
+  - {name: 巴哈姆特, type: select, proxies: [台湾节点, 选择代理, 手动选择, DIRECT], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bahamut.png'}
+  - {name: Youtube, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png'}
+  - {name: Twitch, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitch.png'}
+  - {name: Netflix, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Netflix.png'}
+  - {name: TikTok, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/TikTok.png'}
+  - {name: Spotify, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png'}
+  - {name: Telegram, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/icons/Telegram.png'}
+  - {name: Twitter, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png'}
+  - {name: 新浪微博, type: select, include-all: true, proxies: [DIRECT, 香港节点, 台湾节点, 新加坡节点, 日本节点, 韩国节点, 美国节点, 加拿大节点, 英国节点, 德国节点, 马来西亚节点, 土耳其节点, 澳大利亚节点, 选择代理, 手动选择], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Weibo.png'}
+  - {name: Truth Social, type: select, proxies: [美国节点, 选择代理, 手动选择], icon: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/icons/Truth_Social.png'}
+  - {name: E-Hentai, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/icons/Ehentai.png'}
+  - {name: PikPak网盘, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/icons/PikPak.png'}
+  - {name: 搜狗输入法, type: select, proxies: [DIRECT, REJECT], icon: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/icons/Sougou.png'}
+  - {name: SSH, type: select, <<: *SelectAL, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Server.png'}
+  - {name: Final, type: select, proxies: [选择代理, DIRECT], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png'}
+  - {name: 自动选择, type: url-test, interval: 60, url: 'https://cp.cloudflare.com/generate_204', tolerance: 20, proxies: [香港节点, 台湾节点, 新加坡节点, 日本节点, 韩国节点, 美国节点, 加拿大节点, 英国节点, 德国节点, 马来西亚节点, 土耳其节点, 澳大利亚节点], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png'}
+  - {name: 故障转移, type: fallback, interval: 60, url: 'https://cp.cloudflare.com/generate_204', tolerance: 20, proxies: [香港节点, 台湾节点, 新加坡节点, 日本节点, 韩国节点, 美国节点, 加拿大节点, 英国节点, 德国节点, 马来西亚节点, 土耳其节点, 澳大利亚节点], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available_1.png'}
+  - {name: 广告拦截, type: select, proxies: [REJECT, REJECT-DROP, DIRECT], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AdBlack.png'}
+  - {name: 香港节点, type: select, include-all: true, filter: *FilterHK, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png'}
+  - {name: 台湾节点, type: select, include-all: true, filter: *FilterTW, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png'}
+  - {name: 新加坡节点, type: select, include-all: true, filter: *FilterSG, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png'}
+  - {name: 日本节点, type: select, include-all: true, filter: *FilterJP, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png'}
+  - {name: 韩国节点, type: select, include-all: true, filter: *FilterKR, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Korea.png'}
+  - {name: 美国节点, type: select, include-all: true, filter: *FilterUS, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png'}
+  - {name: 加拿大节点, type: select, include-all: true, filter: *FilterCA, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Canada.png'}
+  - {name: 英国节点, type: select, include-all: true, filter: *FilterEU, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_Kingdom.png'}
+  - {name: 德国节点, type: select, include-all: true, filter: *FilterDE, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Germany.png'}
+  - {name: 马来西亚节点, type: select, include-all: true, filter: *FilterMY, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Malaysia.png'}
+  - {name: 土耳其节点, type: select, include-all: true, filter: *FilterTR, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Turkey.png'}
+  - {name: 澳大利亚节点, type: select, include-all: true, filter: *FilterAU, icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Australia.png'}
+  - {name: GLOBAL, type: select, include-all: true, proxies: [选择代理, 手动选择, 静态资源, AI服务, 加密货币, 苹果服务, 谷歌服务, 微软服务, Xbox, Github, 哔哩哔哩, 巴哈姆特, Youtube, Twitch, Netflix, TikTok, Spotify, Telegram, Twitter, 新浪微博, Truth Social, E-Hentai, PikPak网盘, 搜狗输入法, SSH, Final, 自动选择, 故障转移, 广告拦截, 香港节点, 台湾节点, 新加坡节点, 日本节点, 韩国节点, 美国节点, 加拿大节点, 英国节点, 德国节点, 马来西亚节点, 土耳其节点, 澳大利亚节点], icon: 'https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png'}
+
+
+# ==================== 路由规则 ====================
+rules:
+  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT
+  - DST-PORT,22,SSH
+  - GEOIP,private,DIRECT,no-resolve
+  - RULE-SET,ADBlock,广告拦截
+  - RULE-SET,AdditionalFilter,广告拦截
+  - RULE-SET,SogouInput,搜狗输入法
+  - DOMAIN-SUFFIX,truthsocial.com,Truth Social
+  - RULE-SET,StaticResources,静态资源
+  - RULE-SET,CDNResources,静态资源
+  - RULE-SET,AdditionalCDNResources,静态资源
+  - GEOSITE,category-ai-!cn,AI服务
+  - GEOSITE,bilibili,哔哩哔哩
+  - GEOSITE,youtube,Youtube
+  - GEOSITE,telegram,Telegram
+  - GEOIP,telegram,Telegram,no-resolve
+  - GEOSITE,xbox,Xbox
+  - GEOSITE,github,Github
+  - GEOSITE,netflix,Netflix
+  - GEOSITE,twitch,Twitch
+  - GEOIP,netflix,Netflix,no-resolve
+  - GEOSITE,spotify,Spotify
+  - GEOSITE,bahamut,巴哈姆特
+  - GEOSITE,pikpak,PikPak网盘
+  - GEOSITE,twitter,Twitter
+  - RULE-SET,Weibo,新浪微博
+  - RULE-SET,EHentai,E-Hentai
+  - RULE-SET,TikTok,TikTok
+  - RULE-SET,SteamFix,DIRECT
+  - RULE-SET,GoogleFCM,DIRECT
+  - GEOSITE,google-play@cn,DIRECT
+  - GEOSITE,microsoft@cn,DIRECT
+  - GEOSITE,apple,苹果服务
+  - GEOSITE,microsoft,微软服务
+  - GEOSITE,google,谷歌服务
+  - RULE-SET,Crypto,加密货币
+  - RULE-SET,GFWList,选择代理
+  - GEOIP,cn,DIRECT
+  - MATCH,Final
+
+
+# ==================== 规则集 ====================
+BehaviorDN: &BehaviorDN {type: http, behavior: domain, format: text, interval: 86400}
+Behavior1: &Behavior1 {type: http, behavior: classical, format: text, interval: 86400}
+
+rule-providers:
+  # ── 域名规则
+  ADBlock: {type: http, behavior: domain, format: yaml, interval: 86400, url: 'https://cdn.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockmihomolite.yaml', path: ./ruleset/ADBlock.yaml}
+  SogouInput: {<<: *Behavior1, url: 'https://ruleset.skk.moe/Clash/non_ip/sogouinput.txt'}
+  StaticResources: {<<: *BehaviorDN, url: 'https://ruleset.skk.moe/Clash/domainset/cdn.txt'}
+  CDNResources: {<<: *Behavior1, url: 'https://ruleset.skk.moe/Clash/non_ip/cdn.txt'}
+  TikTok: {<<: *Behavior1, url: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/TikTok.list'}
+  EHentai: {<<: *Behavior1, url: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/EHentai.list'}
+  SteamFix: {<<: *Behavior1, url: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/SteamFix.list'}
+  GoogleFCM: {<<: *Behavior1, url: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/FirebaseCloudMessaging.list'}
+  AdditionalFilter: {<<: *Behavior1, url: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/AdditionalFilter.list'}
+  AdditionalCDNResources: {<<: *Behavior1, url: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/AdditionalCDNResources.list'}
+  Crypto: {<<: *Behavior1, url: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/Crypto.list'}
+  Weibo: {<<: *Behavior1, url: 'https://cdn.jsdelivr.net/gh/powerfullz/override-rules@master/ruleset/Weibo.list'}
+  GFWList: {type: http, behavior: domain, format: yaml, interval: 86400, url: 'https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt', path: ./ruleset/GFWList.yaml}
+
+# ==================== EOF ====================

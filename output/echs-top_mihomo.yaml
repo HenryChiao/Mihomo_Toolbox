@@ -1,0 +1,238 @@
+# ==================== 文件信息 ====================
+# 名称: echs-top_mihomo
+# 来源: https://raw.githubusercontent.com/echs-top/proxy/refs/heads/main/mihomo.js
+# 说明: echs-top_mihomo
+# 生成: 2026-06-14T01:39:57.457Z
+# ⚠  proxy-providers 中的 url 请替换为真实订阅地址
+# ====================================================
+
+# ==================== 锚点配置 ====================
+FilterHK: &FilterHK '(?i)🇭🇰|香港|\bHK\b|\bhongkong\b|\bhong\s?kong\b'
+FilterTW: &FilterTW '(?i)🇹🇼|台湾|\bTW\b|\btaiwan\b'
+FilterSG: &FilterSG '(?i)🇸🇬|新加坡|狮城|\bSG\b|\bsingapore\b'
+FilterJP: &FilterJP '(?i)🇯🇵|日本|\bJP\b|\bjapan\b'
+FilterKR: &FilterKR '(?i)🇰🇷|韩国|\bKR\b'
+FilterUS: &FilterUS '(?i)🇺🇸|美国|\bUS\b|\bunitedstates\b|\bunited\s?states\b'
+FilterCA: &FilterCA '(?i)🇨🇦|加拿大|\bCA\b|\bcanada\b'
+FilterEU: &FilterEU '(?i)🇩🇪|德国|\bDE\b|\bgermany\b'
+FilterGB: &FilterGB '(?i)🇬🇧|英国|\bUK\b|\bGB\b|\bunitedkingdom\b|\bunited\s?kingdom\b'
+FilterFR: &FilterFR '(?i)🇫🇷|法国|\bFR\b'
+FilterNL: &FilterNL '(?i)🇳🇱|荷兰|\bNL\b|\bnetherlands?\b'
+SelectAL: &SelectAL {type: select, proxies: [代理连接, 直接连接, 最低延迟, '香港|故障转移', '台湾|故障转移', '新加坡|故障转移', '日本|故障转移', '韩国|故障转移', '美国|故障转移', '加拿大|故障转移', '德国|故障转移', '英国|故障转移', '法国|故障转移', '荷兰|故障转移']}
+
+
+# ==================== 代理提供者 ====================
+proxy-providers:
+  节点: {type: inline, exclude-filter: '(?i)套餐|剩余|流量|到期|重置|频道|订阅|官网|禁止|客户端|有效|联系|测试|节点|日期|群组|加入|通知|维护|网址|地址|下载|更新|APP|登录|严禁|恢复|处理|谢谢', payload: [{name: __seed__HK香港01, type: socks5, server: 127.0.0.1, port: 1}, {name: __seed__HK香港02, type: socks5, server: 127.0.0.1, port: 2}, {name: __seed__US美国01, type: socks5, server: 127.0.0.1, port: 3}, {name: __seed__US美国02, type: socks5, server: 127.0.0.1, port: 4}, {name: __seed__JP日本01, type: socks5, server: 127.0.0.1, port: 5}, {name: __seed__JP日本02, type: socks5, server: 127.0.0.1, port: 6}, {name: __seed__KR韩国01, type: socks5, server: 127.0.0.1, port: 7}, {name: __seed__KR韩国02, type: socks5, server: 127.0.0.1, port: 8}, {name: __seed__SG新加坡01, type: socks5, server: 127.0.0.1, port: 9}, {name: __seed__SG新加坡02, type: socks5, server: 127.0.0.1, port: 10}, {name: __seed__TW台湾01, type: socks5, server: 127.0.0.1, port: 11}, {name: __seed__TW台湾02, type: socks5, server: 127.0.0.1, port: 12}, {name: __seed__GB英国01, type: socks5, server: 127.0.0.1, port: 13}, {name: __seed__GB英国02, type: socks5, server: 127.0.0.1, port: 14}, {name: __seed__DE德国01, type: socks5, server: 127.0.0.1, port: 15}, {name: __seed__DE德国02, type: socks5, server: 127.0.0.1, port: 16}, {name: __seed__MY马来西亚01, type: socks5, server: 127.0.0.1, port: 17}, {name: __seed__MY马来西亚02, type: socks5, server: 127.0.0.1, port: 18}, {name: __seed__TK土耳其01, type: socks5, server: 127.0.0.1, port: 19}, {name: __seed__TK土耳其02, type: socks5, server: 127.0.0.1, port: 20}, {name: __seed__CA加拿大01, type: socks5, server: 127.0.0.1, port: 21}, {name: __seed__CA加拿大02, type: socks5, server: 127.0.0.1, port: 22}, {name: __seed__AU澳大利亚01, type: socks5, server: 127.0.0.1, port: 23}, {name: __seed__AU澳大利亚02, type: socks5, server: 127.0.0.1, port: 24}], health-check: {enable: true, url: 'https://dns.google/generate_204', expected-status: 204, interval: 900, timeout: 3000, max-failed-times: 2, lazy: true}, override: {ip-version: dual}}
+
+
+# ==================== 核心配置 ====================
+mode: rule
+port: 0
+socks-port: 0
+redir-port: 0
+mixed-port: 0
+tproxy-port: 0
+ipv6: true
+allow-lan: false
+bind-address: '*'
+unified-delay: true
+tcp-concurrent: true
+log-level: error
+find-process-mode: off
+keep-alive-interval: 15
+keep-alive-idle: 300
+etag-support: true
+disable-keep-alive: false
+experimental:
+  quic-go-disable-gso: false
+  quic-go-disable-ecn: true
+  dialer-ip4p-convert: false
+profile:
+  store-selected: true
+  store-fake-ip: true
+hosts:
+  dns.alidns.com:
+    - 223.5.5.5
+    - 223.6.6.6
+    - '2400:3200::1'
+    - '2400:3200:baba::1'
+  doh.pub:
+    - 120.53.53.53
+    - 1.12.12.21
+  dns.google:
+    - 8.8.8.8
+    - 8.8.4.4
+    - '2001:4860:4860::8888'
+    - '2001:4860:4860::8844'
+  dns.quad9.net:
+    - 9.9.9.9
+    - 149.112.112.112
+    - '2620:fe::fe'
+    - '2620:fe::9'
+  services.googleapis.cn: services.googleapis.com
+  google.cn: google.com
+  cn.bing.com: global.bing.com
+
+
+# ==================== 流量嗅探 ====================
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: false
+  sniff:
+    HTTP:
+      ports:
+        - '80'
+        - 8080-8880
+      override-destination: true
+    TLS:
+      ports:
+        - '443'
+        - '8443'
+    QUIC:
+      ports:
+        - '443'
+        - '8443'
+  skip-domain:
+    - 'rule-set:ads'
+    - 'rule-set:ai'
+    - 'rule-set:proxy@direct'
+    - 'rule-set:proxy-lite'
+    - 'rule-set:direct-lite'
+    - 'rule-set:dnsmasq-china-lite'
+  skip-src-address:
+    - 'rule-set:telegram_ip'
+    - 'rule-set:direct_ip'
+
+
+# ==================== TUN 模式 ====================
+tun:
+  enable: true
+  stack: mixed
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  strict-route: true
+  disable-icmp-forwarding: true
+  dns-hijack:
+    - 'any:53'
+    - 'tcp://any:53'
+  udp-timeout: 300
+
+
+# ==================== DNS 配置 ====================
+dns:
+  enable: true
+  ipv6: true
+  ipv6-timeout: 300
+  cache-algorithm: arc
+  use-hosts: true
+  use-system-hosts: false
+  prefer-h3: true
+  respect-rules: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.0/15
+  fake-ip-range6: 'fd00:dcba:9876::/64'
+  fake-ip-filter-mode: rule
+  fake-ip-filter:
+    - 'RULE-SET,ads,fake-ip'
+    - 'RULE-SET,ai,fake-ip'
+    - 'RULE-SET,proxy@direct,real-ip'
+    - 'RULE-SET,proxy-lite,fake-ip'
+    - 'RULE-SET,direct-lite,real-ip'
+    - 'MATCH,fake-ip'
+  default-nameserver:
+    - '119.29.29.29#直接连接'
+    - '223.5.5.5#直接连接'
+  proxy-server-nameserver:
+    - 'https://dns.alidns.com/dns-query#直接连接'
+    - 'https://doh.pub/dns-query#直接连接&h3=false'
+  nameserver:
+    - '8.8.8.8#代理DNS'
+    - '9.9.9.9#代理DNS'
+  nameserver-policy:
+    rule-set:ads:
+      - 'rcode://name_error'
+    rule-set:ai:
+      - 'rcode://success'
+    rule-set:proxy@direct:
+      - 'https://dns.alidns.com/dns-query#直接连接'
+      - 'https://doh.pub/dns-query#直接连接&h3=false'
+    rule-set:proxy-lite:
+      - 'rcode://success'
+    rule-set:direct-lite:
+      - '119.29.29.29#直接连接'
+      - '223.5.5.5#直接连接'
+    rule-set:dnsmasq-china-lite:
+      - '119.29.29.29#直接连接'
+      - '223.5.5.5#直接连接'
+  direct-nameserver:
+    - '119.29.29.29#直接连接'
+    - '223.5.5.5#直接连接'
+  direct-nameserver-follow-policy: true
+
+
+# ==================== 静态代理节点 ====================
+proxies:
+  - {name: IPV4优先, type: direct, udp: true, ip-version: ipv4-prefer}
+  - {name: IPV6优先, type: direct, udp: true, ip-version: ipv6-prefer}
+  - {name: 仅IPV4, type: direct, udp: true, ip-version: ipv4}
+  - {name: 仅IPV6, type: direct, udp: true, ip-version: ipv6}
+
+
+# ==================== 策略组 ====================
+proxy-groups:
+  - {name: 代理连接, type: select, proxies: [最低延迟, '香港|故障转移', '台湾|故障转移', '新加坡|故障转移', '日本|故障转移', '韩国|故障转移', '美国|故障转移', '加拿大|故障转移', '德国|故障转移', '英国|故障转移', '法国|故障转移', '荷兰|故障转移'], include-all-providers: true, icon: 'https://mihomo.echs.top/img/icon/Global.webp'}
+  - {name: 直接连接, type: select, proxies: [DIRECT, IPV6优先, IPV4优先, 仅IPV4, 仅IPV6], icon: 'https://mihomo.echs.top/img/icon/DIRECT.webp'}
+  - {name: 代理DNS, type: select, empty-fallback: REJECT, <<: *SelectAL, include-all-providers: true, icon: 'https://mihomo.echs.top/img/icon/Server.webp'}
+  - {name: 代理QUIC, type: select, proxies: [PASS-RULE, REJECT], icon: 'https://mihomo.echs.top/img/icon/Settings.webp'}
+  - {name: 国外AI, type: select, empty-fallback: REJECT, <<: *SelectAL, include-all-providers: true, icon: 'https://mihomo.echs.top/img/icon/AI.webp'}
+  - {name: TELEGRAM, type: select, empty-fallback: REJECT, <<: *SelectAL, include-all-providers: true, icon: 'https://mihomo.echs.top/img/icon/Telegram.webp'}
+  - {name: 最低延迟, type: url-test, tolerance: 30, hidden: true, empty-fallback: REJECT, include-all-providers: true, icon: 'https://mihomo.echs.top/img/icon/Fast.webp'}
+  - {name: '香港|故障转移', type: fallback, hidden: true, filter: *FilterHK, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/hk.svg'}
+  - {name: '台湾|故障转移', type: fallback, hidden: true, filter: *FilterTW, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/tw.svg'}
+  - {name: '新加坡|故障转移', type: fallback, hidden: true, filter: *FilterSG, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/sg.svg'}
+  - {name: '日本|故障转移', type: fallback, hidden: true, filter: *FilterJP, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/jp.svg'}
+  - {name: '韩国|故障转移', type: fallback, hidden: true, filter: *FilterKR, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/kr.svg'}
+  - {name: '美国|故障转移', type: fallback, hidden: true, filter: *FilterUS, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/us.svg'}
+  - {name: '加拿大|故障转移', type: fallback, hidden: true, filter: *FilterCA, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/ca.svg'}
+  - {name: '德国|故障转移', type: fallback, hidden: true, filter: *FilterEU, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/de.svg'}
+  - {name: '英国|故障转移', type: fallback, hidden: true, filter: *FilterGB, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/gb.svg'}
+  - {name: '法国|故障转移', type: fallback, hidden: true, filter: *FilterFR, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/fr.svg'}
+  - {name: '荷兰|故障转移', type: fallback, hidden: true, filter: *FilterNL, include-all-providers: true, icon: 'https://mihomo.echs.top/img/flags/nl.svg'}
+  - {name: GLOBAL, type: select, hidden: true, proxies: [最低延迟, '香港|故障转移', '台湾|故障转移', '新加坡|故障转移', '日本|故障转移', '韩国|故障转移', '美国|故障转移', '加拿大|故障转移', '德国|故障转移', '英国|故障转移', '法国|故障转移', '荷兰|故障转移', 代理连接, 直接连接, 代理DNS, 代理QUIC, 国外AI, TELEGRAM], include-all-providers: true, icon: 'https://mihomo.echs.top/img/icon/Globefish.webp'}
+
+
+# ==================== 路由规则 ====================
+rules:
+  - DST-PORT,5228-5230,直接连接
+  - SUB-RULE,(RULE-SET,telegram_ip,no-resolve),sub-telegram
+  - RULE-SET,ads,REJECT
+  - SUB-RULE,(RULE-SET,ai),sub-ai
+  - RULE-SET,proxy@direct,直接连接
+  - SUB-RULE,(RULE-SET,proxy-lite),sub-proxy
+  - RULE-SET,direct-lite,直接连接
+  - RULE-SET,direct_ip,直接连接
+  - AND,((NETWORK,udp),(DST-PORT,443)),代理QUIC
+  - MATCH,代理连接
+
+
+# ==================== 规则集 ====================
+BehaviorDN: &BehaviorDN {type: http, behavior: domain, format: mrs, interval: 86400}
+BehaviorIP: &BehaviorIP {type: http, behavior: ipcidr, format: mrs, interval: 86400}
+
+rule-providers:
+  # ── 域名规则
+  ads: {<<: *BehaviorDN, url: 'https://raw.githubusercontent.com/echs-top/proxy/main/mrs/domain/ads.mrs', proxy: 代理连接}
+  ai: {<<: *BehaviorDN, url: 'https://raw.githubusercontent.com/echs-top/proxy/main/mrs/domain/ai.mrs', proxy: 代理连接}
+  proxy@direct: {<<: *BehaviorDN, url: 'https://raw.githubusercontent.com/echs-top/proxy/main/mrs/domain/proxy@direct.mrs', proxy: 代理连接}
+  proxy-lite: {<<: *BehaviorDN, url: 'https://raw.githubusercontent.com/echs-top/proxy/main/mrs/domain/proxy-lite.mrs', proxy: 代理连接}
+  direct-lite: {<<: *BehaviorDN, url: 'https://raw.githubusercontent.com/echs-top/proxy/main/mrs/domain/direct-lite.mrs', proxy: 代理连接}
+  dnsmasq-china-lite: {<<: *BehaviorDN, url: 'https://raw.githubusercontent.com/echs-top/proxy/main/mrs/domain/dnsmasq-china-lite.mrs', proxy: 代理连接}
+  # ── IP 规则
+  telegram_ip: {<<: *BehaviorIP, url: 'https://raw.githubusercontent.com/echs-top/proxy/main/mrs/ip/telegram.mrs', proxy: 代理连接}
+  direct_ip: {<<: *BehaviorIP, url: 'https://raw.githubusercontent.com/echs-top/proxy/main/mrs/ip/direct.mrs', proxy: 代理连接}
+
+# ==================== EOF ====================
