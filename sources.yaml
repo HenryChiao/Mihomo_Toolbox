@@ -41,6 +41,41 @@ scripts:
     url: https://raw.githubusercontent.com/dahaha-365/YaNet/main/Mihomo/global_script.js
     description: "YaNet - 功能全面的覆写脚本"
 
+  - name: echs-top_mihomo_smart
+    type: js
+    url: https://raw.githubusercontent.com/echs-top/proxy/refs/heads/main/mihomo_smart.js
+    description: "echs-top_mihomo_smart"
+  
+  - name: echs-top_mihomo
+    type: js
+    url: https://raw.githubusercontent.com/echs-top/proxy/refs/heads/main/mihomo.js
+    description: "echs-top_mihomo"
+
+  - name: Ayanami0-configs
+    type: js
+    url: https://raw.githubusercontent.com/Ayanami0xL1l1th/Ayanami0-configs/refs/heads/main/Ayanami0's%20override.js
+    description: "Ayanami0-configs"
+
+  - name: Accademia_Clash_Configuration_Template
+    type: js
+    url: 'https://raw.githubusercontent.com/Accademia/Clash_Configuration_Template/refs/heads/main/%E8%A6%86%E5%86%99%E8%84%9A%E6%9C%AC/%E6%B5%8B%E8%AF%95%E7%89%88-%5BClashMeta%E8%A6%86%E5%86%99%E8%84%9A%E6%9C%AC%5D-%5B%E6%A1%8C%E9%9D%A2%E7%AB%AF%5D-WhiteList-01.js'
+    description: "Accademia_Clash_Configuration_Template"
+
+  - name: powerfullz_override-rules
+    type: js
+    url: https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js
+    description: "powerfullz_override-rules"
+
+  - name: Sgraqwq_Proxy-override
+    type: js
+    url: https://raw.githubusercontent.com/Sgraqwq/Proxy-override/refs/heads/main/proxy-override.js
+    description: "Sgraqwq_Proxy-override" 
+
+  - name: sirkey5
+    type: js
+    url: https://raw.githubusercontent.com/sirkey5/clash--singbox--subsotre.js/refs/heads/main/clash-verge%26flclash%26mihomo.js
+    description: "sirkey5 Mihomo 深度优化脚本 v5.1-fixed"
+    
   # YAML patch 示例（取消注释使用）：
   # - name: my-patch
   #   type: yaml
